@@ -4,7 +4,7 @@ import joblib
 
 # ---------------- PAGE CONFIG ----------------
 st.set_page_config(
-    page_title="Arun ML Predictor",
+    page_title="AI Predictor",
     page_icon="🤖",
     layout="centered"
 )
