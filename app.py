@@ -59,7 +59,7 @@ if "page" not in st.session_state:
 # =========================================================
 if st.session_state.page == "home":
 
-    st.markdown("<div class='main-title'>🤖 Arun ML Prediction App</div>", unsafe_allow_html=True)
+    st.markdown("<div class='main-title'>🤖 AI Prediction App</div>", unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
 
