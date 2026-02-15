@@ -1,15 +1,19 @@
 import streamlit as st
 import numpy as np
 import joblib
-from PIL import Image
 
-# Page configuration
-st.set_page_config(page_title="House Price Predictor", page_icon="🏠")
+# ---------------- PAGE CONFIG ----------------
+st.set_page_config(
+    page_title="Arun ML Predictor",
+    page_icon="🤖",
+    layout="centered"
+)
 
-# Load model
-model = joblib.load("model.pkl")
+# ---------------- LOAD MODELS ----------------
+house_model = joblib.load("model.pkl")
+sales_model = joblib.load("sales_predictor.pkl")
 
-# Custom CSS Styling
+# ---------------- CUSTOM CSS ----------------
 st.markdown("""
     <style>
     .main-title {
@@ -17,47 +21,67 @@ st.markdown("""
         font-size: 40px;
         font-weight: bold;
         color: #1f77b4;
+        margin-bottom: 20px;
     }
     .footer {
         position: fixed;
-        bottom: 10px;
+        bottom: 0;
+        left: 0;
         width: 100%;
+        background-color: #111;
+        color: white;
         text-align: center;
-        font-size: 14px;
-        color: grey;
+        padding: 10px;
+        font-size: 15px;
     }
     .stButton>button {
         background-color: #1f77b4;
         color: white;
-        font-size: 18px;
+        font-size: 16px;
         border-radius: 10px;
         height: 3em;
         width: 100%;
     }
+    img {
+        height: 250px !important;
+        object-fit: cover;
+        border-radius: 10px;
+    }
     </style>
 """, unsafe_allow_html=True)
 
-# Session state to switch page
+# ---------------- SESSION STATE ----------------
 if "page" not in st.session_state:
     st.session_state.page = "home"
 
-# ---------- HOME PAGE ----------
+# =========================================================
+# ---------------- HOME PAGE ----------------
+# =========================================================
 if st.session_state.page == "home":
-    
-    st.markdown("<div class='main-title'>🏠 House Price Predictor</div>", unsafe_allow_html=True)
-    st.write("")
 
-    image = Image.open("house.jpg")
-    st.image(image, use_container_width=True)
+    st.markdown("<div class='main-title'>🤖 Arun ML Prediction App</div>", unsafe_allow_html=True)
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.image("house.jpg", use_container_width=True)
+        if st.button("🏠 House Price Prediction"):
+            st.session_state.page = "house"
+            st.rerun()
+
+    with col2:
+        st.image("sales.jpg", use_container_width=True)
+        if st.button("📊 Sales Prediction"):
+            st.session_state.page = "sales"
+            st.rerun()
 
 
-    if st.button("Start Prediction"):
-        st.session_state.page = "predict"
+# =========================================================
+# ---------------- HOUSE PREDICTOR PAGE ----------------
+# =========================================================
+elif st.session_state.page == "house":
 
-# ---------- PREDICTION PAGE ----------
-elif st.session_state.page == "predict":
-
-    st.title("Enter House Details")
+    st.title("🏠 House Price Predictor")
 
     MedInc = st.number_input("Median Income")
     HouseAge = st.number_input("House Age")
@@ -68,17 +92,41 @@ elif st.session_state.page == "predict":
     Latitude = st.number_input("Latitude")
     Longitude = st.number_input("Longitude")
 
-    if st.button("Predict Price"):
+    if st.button("Predict House Price"):
         new_data = np.array([[MedInc, HouseAge, AveRooms, AveBedrms,
                               Population, AveOccup, Latitude, Longitude]])
+        prediction = house_model.predict(new_data)
+        st.success(f"Predicted House Price: {prediction[0]:.2f}")
 
-        prediction = model.predict(new_data)
+    if st.button("⬅ Back to Home"):
+        st.session_state.page = "home"
+        st.rerun()
 
-        st.success(f"Predicted House Price: {prediction[0]}")
 
-# ---------- FOOTER ----------
+# =========================================================
+# ---------------- SALES PREDICTOR PAGE ----------------
+# =========================================================
+elif st.session_state.page == "sales":
+
+    st.title("📊 Sales Predictor")
+
+    TV = st.number_input("TV Ad Budget ($)")
+    Radio = st.number_input("Radio Ad Budget ($)")
+    Newspaper = st.number_input("Newspaper Ad Budget ($)")
+
+    if st.button("Predict Sales"):
+        new_data = np.array([[TV, Radio, Newspaper]])
+        prediction = sales_model.predict(new_data)
+        st.success(f"Predicted Sales ($): {prediction[0]:.2f}")
+
+    if st.button("⬅ Back to Home"):
+        st.session_state.page = "home"
+        st.rerun()
+
+
+# ---------------- FOOTER ----------------
 st.markdown("""
     <div class="footer">
-        Made by Arun Tech Solutions
+        Copy-right © Arun. Made with ❤️ by Arun Software Solutions.
     </div>
 """, unsafe_allow_html=True)
