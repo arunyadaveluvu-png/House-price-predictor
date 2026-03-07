@@ -5,7 +5,7 @@ import time
 
 # ---------------- PAGE CONFIG ----------------
 st.set_page_config(
-    page_title="Arun AI Hub",
+    page_title="ML MODELS",
     page_icon="🤖",
     layout="wide"
 )
@@ -77,7 +77,7 @@ if st.session_state.page == "home":
 
     # Crop Model
     with col3:
-        st.image("crop.jpg", use_container_width=True)
+        st.image("https://www.cropanalytica.com/crop-yield-prediction-software", use_container_width=True)
         if st.button("🌾 Crop Predictor"):
             st.session_state.page = "crop"
             st.rerun()
