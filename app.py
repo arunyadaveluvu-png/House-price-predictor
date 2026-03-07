@@ -43,12 +43,12 @@ color:white;
 
 .subtitle{
 text-align:center;
-color:#bbb;
-font-size:20px;
+color:#ccc;
+font-size:18px;
 margin-bottom:40px;
 }
 
-/* model cards */
+/* cards */
 
 .card{
 background:#111;
@@ -63,8 +63,11 @@ transform:scale(1.03);
 box-shadow:0px 0px 30px rgba(0,0,0,0.9);
 }
 
+/* FIX IMAGE SIZE */
+
 .card img{
-height:230px;
+width:100%;
+height:220px !important;
 object-fit:cover;
 border-radius:10px;
 }
@@ -105,7 +108,7 @@ if st.session_state.intro:
     st.markdown(
         """
         <div style="text-align:center; padding-top:180px;">
-        <h1 style="font-size:70px;">Welcome Back</h1>
+        <h1 style="font-size:70px;">🤖 Arun AI Lab</h1>
         <h3>Machine Learning Applications</h3>
         </div>
         """,
@@ -130,11 +133,12 @@ if "page" not in st.session_state:
 # ====================================================
 if st.session_state.page == "home":
 
-    st.markdown('<div class="title">🚀 All Models Here </div>', unsafe_allow_html=True)
+    st.markdown('<div class="title"> WELCOME BACK</div>', unsafe_allow_html=True)
     st.markdown('<div class="subtitle">Explore Machine Learning Predictors</div>', unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
 
+    # HOUSE MODEL
     with col1:
         st.markdown('<div class="card">', unsafe_allow_html=True)
         st.image("house.jpg", use_container_width=True)
@@ -143,6 +147,7 @@ if st.session_state.page == "home":
             st.rerun()
         st.markdown('</div>', unsafe_allow_html=True)
 
+    # SALES MODEL
     with col2:
         st.markdown('<div class="card">', unsafe_allow_html=True)
         st.image("sales.jpg", use_container_width=True)
@@ -153,6 +158,7 @@ if st.session_state.page == "home":
 
     col3, col4 = st.columns(2)
 
+    # CROP MODEL
     with col3:
         st.markdown('<div class="card">', unsafe_allow_html=True)
         st.image("https://images.unsplash.com/photo-1500382017468-9049fed747ef", use_container_width=True)
