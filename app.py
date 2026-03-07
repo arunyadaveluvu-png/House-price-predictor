@@ -5,7 +5,7 @@ import time
 
 # ---------------- PAGE CONFIG ----------------
 st.set_page_config(
-    page_title="ML MODELS",
+    page_title="ML Models",
     page_icon="🤖",
     layout="wide"
 )
@@ -15,7 +15,88 @@ house_model = joblib.load("model.pkl")
 sales_model = joblib.load("sales_predictor.pkl")
 crop_model = joblib.load("crop_predictor.pkl")
 
-# ---------------- INTRO ANIMATION ----------------
+# ---------------- GLOBAL STYLES ----------------
+st.markdown("""
+<style>
+
+/* animated ML background */
+.stApp{
+background: linear-gradient(-45deg,#020024,#090979,#000428,#004e92);
+background-size:400% 400%;
+animation:gradient 12s ease infinite;
+}
+
+@keyframes gradient{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+/* titles */
+
+.title{
+text-align:center;
+font-size:50px;
+font-weight:bold;
+color:white;
+}
+
+.subtitle{
+text-align:center;
+color:#bbb;
+font-size:20px;
+margin-bottom:40px;
+}
+
+/* model cards */
+
+.card{
+background:#111;
+padding:15px;
+border-radius:15px;
+box-shadow:0px 0px 15px rgba(0,0,0,0.6);
+transition:0.3s;
+}
+
+.card:hover{
+transform:scale(1.03);
+box-shadow:0px 0px 30px rgba(0,0,0,0.9);
+}
+
+.card img{
+height:230px;
+object-fit:cover;
+border-radius:10px;
+}
+
+/* buttons */
+
+.stButton>button{
+width:100%;
+border-radius:10px;
+height:45px;
+font-size:17px;
+background:#0d6efd;
+color:white;
+}
+
+/* footer */
+
+.footer{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+text-align:center;
+background:#111;
+color:white;
+padding:10px;
+}
+
+</style>
+""", unsafe_allow_html=True)
+
+# ---------------- INTRO SCREEN ----------------
 if "intro" not in st.session_state:
     st.session_state.intro = True
 
@@ -23,9 +104,9 @@ if st.session_state.intro:
 
     st.markdown(
         """
-        <div style="text-align:center; padding-top:150px;">
-            <h1 style="font-size:60px;">🤖 Arun AI Lab</h1>
-            <h3>Machine Learning Applications</h3>
+        <div style="text-align:center; padding-top:180px;">
+        <h1 style="font-size:70px;">Welcome Back</h1>
+        <h3>Machine Learning Applications</h3>
         </div>
         """,
         unsafe_allow_html=True
@@ -34,70 +115,56 @@ if st.session_state.intro:
     progress = st.progress(0)
 
     for i in range(100):
-        time.sleep(0.02)
+        time.sleep(0.015)
         progress.progress(i+1)
 
     st.session_state.intro = False
     st.rerun()
 
-# ---------------- SESSION STATE ----------------
+# ---------------- PAGE STATE ----------------
 if "page" not in st.session_state:
     st.session_state.page = "home"
 
-# ======================================================
-# ---------------- HOME PAGE ----------------
-# ======================================================
+# ====================================================
+# HOME PAGE
+# ====================================================
 if st.session_state.page == "home":
 
-    st.markdown(
-        """
-        <h1 style='text-align:center;'>🚀 AI Model Dashboard</h1>
-        <p style='text-align:center;'>Explore Machine Learning Predictors</p>
-        """,
-        unsafe_allow_html=True
-    )
+    st.markdown('<div class="title">🚀 All Models Here </div>', unsafe_allow_html=True)
+    st.markdown('<div class="subtitle">Explore Machine Learning Predictors</div>', unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
 
-    # House Model
     with col1:
+        st.markdown('<div class="card">', unsafe_allow_html=True)
         st.image("house.jpg", use_container_width=True)
         if st.button("🏠 House Price Predictor"):
-            st.session_state.page = "house"
+            st.session_state.page="house"
             st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
 
-    # Sales Model
     with col2:
+        st.markdown('<div class="card">', unsafe_allow_html=True)
         st.image("sales.jpg", use_container_width=True)
         if st.button("📊 Sales Predictor"):
-            st.session_state.page = "sales"
+            st.session_state.page="sales"
             st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
 
     col3, col4 = st.columns(2)
 
-    # Crop Model
     with col3:
-        st.image("https://www.cropanalytica.com/crop-yield-prediction-software", use_container_width=True)
+        st.markdown('<div class="card">', unsafe_allow_html=True)
+        st.image("https://images.unsplash.com/photo-1500382017468-9049fed747ef", use_container_width=True)
         if st.button("🌾 Crop Predictor"):
-            st.session_state.page = "crop"
+            st.session_state.page="crop"
             st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
 
-# ======================================================
-# ---------------- HOUSE PAGE ----------------
-# ======================================================
+# ====================================================
+# HOUSE PAGE
+# ====================================================
 elif st.session_state.page == "house":
-
-    st.markdown(
-        """
-        <style>
-        body {
-        background-image: url("https://images.unsplash.com/photo-1560184897-67f4a3f9a7fa");
-        background-size: cover;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
 
     st.title("🏠 House Price Predictor")
 
@@ -120,25 +187,13 @@ elif st.session_state.page == "house":
         st.success(f"Predicted Price: {prediction[0]:.2f}")
 
     if st.button("⬅ Back"):
-        st.session_state.page = "home"
+        st.session_state.page="home"
         st.rerun()
 
-# ======================================================
-# ---------------- SALES PAGE ----------------
-# ======================================================
+# ====================================================
+# SALES PAGE
+# ====================================================
 elif st.session_state.page == "sales":
-
-    st.markdown(
-        """
-        <style>
-        body {
-        background-image: url("https://images.unsplash.com/photo-1551288049-bebda4e38f71");
-        background-size: cover;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
 
     st.title("📊 Sales Predictor")
 
@@ -155,25 +210,13 @@ elif st.session_state.page == "sales":
         st.success(f"Predicted Sales: {prediction[0]:.2f}")
 
     if st.button("⬅ Back"):
-        st.session_state.page = "home"
+        st.session_state.page="home"
         st.rerun()
 
-# ======================================================
-# ---------------- CROP PAGE ----------------
-# ======================================================
+# ====================================================
+# CROP PAGE
+# ====================================================
 elif st.session_state.page == "crop":
-
-    st.markdown(
-        """
-        <style>
-        body {
-        background-image: url("https://images.unsplash.com/photo-1500382017468-9049fed747ef");
-        background-size: cover;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
 
     st.title("🌾 Smart Crop Recommendation")
 
@@ -194,15 +237,12 @@ elif st.session_state.page == "crop":
         st.success(f"Recommended Crop: {prediction[0]}")
 
     if st.button("⬅ Back"):
-        st.session_state.page = "home"
+        st.session_state.page="home"
         st.rerun()
 
 # ---------------- FOOTER ----------------
-st.markdown(
-"""
-<div style='position:fixed; bottom:0; width:100%; text-align:center; background:black; color:white; padding:10px;'>
+st.markdown("""
+<div class="footer">
 © Arun Software Solutions | Made with ❤️ by Arun
 </div>
-""",
-unsafe_allow_html=True
-)
+""", unsafe_allow_html=True)
