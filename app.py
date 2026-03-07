@@ -13,7 +13,7 @@ st.set_page_config(
 # ---------------- LOAD MODELS ----------------
 house_model = joblib.load("model.pkl")
 sales_model = joblib.load("sales_predictor.pkl")
-crop_model = joblib.load("crop_model.pkl")
+crop_model = joblib.load("crop_predictor.pkl")
 
 # ---------------- INTRO ANIMATION ----------------
 if "intro" not in st.session_state:
@@ -201,7 +201,7 @@ elif st.session_state.page == "crop":
 st.markdown(
 """
 <div style='position:fixed; bottom:0; width:100%; text-align:center; background:black; color:white; padding:10px;'>
-© Arun AI Lab | Made with ❤️ by Arun
+© Arun Software Solutions | Made with ❤️ by Arun
 </div>
 """,
 unsafe_allow_html=True
